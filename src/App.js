@@ -1,12 +1,25 @@
 import styled from 'styled-components';
 import './App.css';
 import Nav from './components/Nav';
+import Banner from './components/Banner';
+import Category from './components/Category';
+import Raw from './components/Raw';
+import requests from './api/request';
 
 function App() {
   return (
     <div className="App">
       <Container>
         <Nav />
+        <Banner />
+        <Category />
+        <Raw title="Trending Now" fetchUrl={requests.fetchTrending} id="TN" />
+        <Raw title="Top Rated" fetchUrl={requests.fetchTopRated} id="TR" />
+        <Raw
+          title="Action Movies"
+          fetchUrl={requests.fetchActionMovies}
+          id="AM"
+        />
       </Container>
     </div>
   );
