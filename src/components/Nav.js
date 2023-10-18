@@ -1,22 +1,49 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = () => {
   const [show, setShow] = useState(false);
+  const [searchWard, setSearchWard] = useState('');
+  const navigate = useNavigate();
+
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      // console.log(window.scrollY);
-      if (window.scrollY > 50) {
-        setShow(true);
-      } else {
-        setShow(false);
-      }
-    });
+    window.addEventListener('scroll', handleScroll);
+    // console.log(window.scrollY);
 
     return () => {
-      window.removeEventListener('scroll', () => {});
+      window.addEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  };
+
+  const handleChangeSearchWord = (e) => {
+    setSearchWard(e.target.value);
+  };
+
+  const handleBlur = () => {
+    if (searchWard !== '') {
+      navigateSearch();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.code === 'Enter') {
+      navigateSearch();
+    }
+  };
+
+  const navigateSearch = () => {
+    navigate(`/search?q=${searchWard}`);
+  };
+
   return (
     <NavWrapper show={show}>
       <Logo>
@@ -26,6 +53,15 @@ const Nav = () => {
           onClick={() => (window.location.href = '/')}
         />
       </Logo>
+      <Input
+        value={searchWard}
+        onChange={handleChangeSearchWord}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        className="nav__input"
+        type="text"
+        placeholder="검색어를 입력하세요"
+      />
     </NavWrapper>
   );
 };
@@ -58,5 +94,27 @@ const Logo = styled.a`
     display: block;
     width: 100%;
     padding: 10px;
+  }
+`;
+
+const Input = styled.input`
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgba(0, 0, 0, 0.582);
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+  border: none;
+  width: 500px;
+  height: 23px;
+  box-shadow: 2px 2px 2px 2px gray;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  &:focus {
+    outline: 2px solid rgb(53, 129, 252);
   }
 `;

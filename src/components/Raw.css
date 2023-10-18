@@ -73,6 +73,8 @@
   overflow-x: scroll;
   padding: 20px 0 20px 20px;
   scroll-behavior: smooth;
+  border-radius: 30px;
+  box-shadow: 5px 5px 5px 2px rgb(0, 0, 0);
 }
 
 .row__posters::-webkit-scrollbar {

@@ -35,6 +35,12 @@ const Category = () => {
             <source src="/videos/national-geographic.mp4" type="video/mp4" />
           </video>
         </Wrap>
+        <Wrap>
+          <img src="/images/viewers-star.png" alt="national" />
+          <video autoPlay loop muted>
+            <source src="/videos/star-originals.mp4" type="video/mp4" />
+          </video>
+        </Wrap>
       </Container>
     </div>
   );
@@ -47,10 +53,10 @@ const Container = styled.div`
   padding: 30px 0px 26px;
   display: grid;
   gap: 25px;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 

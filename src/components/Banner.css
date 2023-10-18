@@ -113,4 +113,6 @@
 .play {
   background-color: #fff;
   color: #000;
+  border-radius: 3px;
+  box-shadow: 2px 2px 2px 2px black;
 }
