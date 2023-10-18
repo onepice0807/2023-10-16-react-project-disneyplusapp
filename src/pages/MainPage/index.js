@@ -21,7 +21,7 @@ const MainPage = () => {
         id="AM"
       />
       <Space />
-      <Footer />
+      <Footer fetchUrl={requests.fetchTrending} />
     </Container>
   );
 };

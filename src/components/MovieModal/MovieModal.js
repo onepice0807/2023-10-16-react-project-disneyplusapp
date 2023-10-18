@@ -28,7 +28,11 @@ const MovieModal = ({
           </span>
           <img
             className="modal__poster-img"
-            src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
+            src={
+              `https://image.tmdb.org/t/p/original${backdrop_path}`
+                ? `https://image.tmdb.org/t/p/original${backdrop_path}`
+                : 'https://www.shutterstock.com/image-illustration/none-flat-icon-260nw-1266167038.jpg'
+            }
             alt={title}
           />
           <button className="modal__poster-button">
