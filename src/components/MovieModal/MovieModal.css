@@ -61,3 +61,18 @@
     width: 100%;
   }
 }
+
+.modal__poster-overview {
+  margin: 10px;
+  padding: 10px;
+}
+
+.modal__likeContent-button {
+  padding: 10px;
+  margin: 10px;
+}
+.modal__likeContent-button button {
+  width: 120px;
+  height: 35px;
+  font-weight: bold;
+}

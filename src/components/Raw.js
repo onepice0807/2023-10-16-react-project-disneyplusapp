@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import axios from './../api/axios'; // 내가 작성한 axios(baseUrl과 params가 있는)
 import './Raw.css';
 import MovieModal from './MovieModal/MovieModal';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const Raw = ({ title, fetchUrl, id }) => {
   const [movies, setMovies] = useState([]);
@@ -13,10 +15,11 @@ const Raw = ({ title, fetchUrl, id }) => {
     fetchData();
   }, [fetchUrl]);
 
+  console.log(fetchUrl);
+
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(fetchUrl);
-      // console.log(response);
       setMovies(response.data.results);
     } catch (error) {
       console.error(error);
@@ -32,17 +35,24 @@ const Raw = ({ title, fetchUrl, id }) => {
   return (
     <Container>
       <h2>{title}</h2>
-      <div className="slider">
-        <div
-          className="slider__arrow-left"
-          onClick={() => {
-            document.getElementById(id).scrollLeft -= window.innerWidth - 80;
-          }}
-        >
-          <span className="arrow">{'<'}</span>
-        </div>
-        <div className="row__posters" id={id}>
-          {movies.map((movie) => (
+
+      <Swiper
+        spaceBetween={10}
+        slidesPerView={1}
+        scrollbar={{ draggable: true }}
+        navigation
+        pagination={{ clickable: true }}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+          },
+          900: {
+            slidesPerView: 5,
+          },
+        }}
+      >
+        {movies.map((movie) => (
+          <SwiperSlide key={movie.id}>
             <img
               key={movie.id}
               className="row__poster"
@@ -50,17 +60,9 @@ const Raw = ({ title, fetchUrl, id }) => {
               alt={movie.title}
               onClick={() => handelClick(movie)}
             />
-          ))}
-        </div>
-        <div
-          className="slider__arrow-right"
-          onClick={() => {
-            document.getElementById(id).scrollLeft += window.innerWidth - 80;
-          }}
-        >
-          <span className="arrow">{'>'}</span>
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
       {showModal && (
         <MovieModal {...selectedMovie} setShowModal={setShowModal} />
       )}

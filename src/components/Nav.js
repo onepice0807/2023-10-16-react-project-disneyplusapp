@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useGetParamValue } from '../hooks/useGetParamValue';
 
 const Nav = () => {
   const [show, setShow] = useState(false);
-  const [searchWard, setSearchWard] = useState('');
   const navigate = useNavigate();
+  const value = useGetParamValue('q');
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -25,24 +26,24 @@ const Nav = () => {
   };
 
   const handleChangeSearchWord = (e) => {
-    setSearchWard(e.target.value);
+    navigate(`/search?q=${e.target.value}`);
   };
 
-  const handleBlur = () => {
-    if (searchWard !== '') {
-      navigateSearch();
-    }
-  };
+  // const handleBlur = () => {
+  //   if (searchWard !== '') {
+  //     navigateSearch();
+  //   }
+  // };
 
-  const handleKeyDown = (e) => {
-    if (e.code === 'Enter') {
-      navigateSearch();
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.code === 'Enter') {
+  //     navigateSearch();
+  //   }
+  // };
 
-  const navigateSearch = () => {
-    navigate(`/search?q=${searchWard}`);
-  };
+  // const navigateSearch = () => {
+  //   navigate(`/search?q=${searchWard}`);
+  // };
 
   return (
     <NavWrapper show={show}>
@@ -54,10 +55,10 @@ const Nav = () => {
         />
       </Logo>
       <Input
-        value={searchWard}
+        value={value}
         onChange={handleChangeSearchWord}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
+        // onBlur={handleBlur}
+        // onKeyDown={handleKeyDown}
         className="nav__input"
         type="text"
         placeholder="검색어를 입력하세요"

@@ -20,6 +20,8 @@ const Banner = () => {
           Math.floor(Math.random() * response.data.results.length)
         ].id; // 랜덤하게 뽑은 영화 1개의 대략적인 정보
 
+      console.log(bannerMovieId);
+
       const { data: bannerMovieDetail } = await axios.get(
         `movie/${bannerMovieId}`,
         {
