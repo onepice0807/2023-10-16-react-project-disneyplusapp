@@ -108,6 +108,8 @@
   color: #000;
   background-color: rgba(170, 170, 170, 0.9);
   transition: all 0.2s;
+  width: 65px;
+  height: 31px;
 }
 
 .play {

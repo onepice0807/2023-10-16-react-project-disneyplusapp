@@ -43,11 +43,17 @@ const Raw = ({ title, fetchUrl, id }) => {
         navigation
         pagination={{ clickable: true }}
         breakpoints={{
+          500: {
+            slidesPerView: 2,
+          },
           768: {
             slidesPerView: 3,
           },
           900: {
             slidesPerView: 5,
+          },
+          1200: {
+            slidesPerView: 7,
           },
         }}
       >
