@@ -2,7 +2,6 @@ import axios from '../../api/axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SearchPage.css';
-import MovieModal from '../../components/MovieModal/MovieModal';
 import { useDebounce } from '../../hooks/useDebounce';
 import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
@@ -11,14 +10,50 @@ import { useGetParamValue } from '../../hooks/useGetParamValue';
 const SearchPage = () => {
   // const location = useLocation()
   const [searchMovies, setSearchMovies] = useState([]);
-  const [showModal, setShowModal] = useState(false); // 모달 창을 띄울지 말지 결정하는 State
-  const [selectedMovie, setSelectedMovie] = useState({});
   const navigate = useNavigate();
+
+  const [curPageNo, setCurPageNo] = useState(1);
 
   console.log(useGetParamValue('q'));
   const value = useGetParamValue('q');
   const debouncedSearchWord = useDebounce(value, 1000);
   console.log(debouncedSearchWord);
+
+  const handleScroll = () => {
+    // console.log(
+    //   '문서의 총높이(스크롤 되어 보이지 않는 영역까지 포함',
+    //   document.documentElement.scrollHeight,
+    // );
+
+    // console.log(
+    //   '스크롤 되어 보이지 않는 영역의 높이',
+    //   document.documentElement.scrollTop,
+    // );
+
+    // console.log(
+    //   '유저에게 보여지는 화면의 높이',
+    //   document.documentElement.clientHeight,
+    // );
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight === scrollHeight) {
+      setCurPageNo(curPageNo + 1); // 페이지 번호 1 증가
+      fetchSearchMovies();
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  };
+
+  // 스크롤 이벤트를 웹 문서에 장착
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      // <SearchPage />가 언마운트 될때는 스크롤 이벤트 핸들러 해제
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
 
   useEffect(() => {
     //검색어 영화 검색하기
@@ -30,7 +65,7 @@ const SearchPage = () => {
   const fetchSearchMovies = async () => {
     try {
       const response = await axios.get(
-        `/search/multi?query=${debouncedSearchWord}&page=1`,
+        `/search/movie?query=${debouncedSearchWord}&page=${curPageNo}`,
       );
       console.log(response);
       setSearchMovies(response.data.results);
@@ -75,12 +110,6 @@ const SearchPage = () => {
                       ? movie.first_air_date
                       : movie.release_date}
                   </div>
-                  {showModal && (
-                    <MovieModal
-                      {...selectedMovie}
-                      setShowModal={setShowModal}
-                    />
-                  )}
                 </div>
               );
             }
